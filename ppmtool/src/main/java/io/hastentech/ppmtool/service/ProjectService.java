@@ -6,4 +6,6 @@ public interface ProjectService {
 
 	Project saveOrUpdateProject(Project project);
 
+	Project getProjectByIdentifier(String projectId);
+
 }
