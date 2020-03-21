@@ -1,6 +1,7 @@
 package io.hastentech.ppmtool.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import io.hastentech.ppmtool.domain.Project;
@@ -35,6 +36,24 @@ public class ProjectServiceImpl implements ProjectService{
 			throw new ProjectIdException("Project Id "+projectId+" is not exists");
 		}
 		return project;
+	}
+
+	@Override
+	public Iterable<Project> findAllProjects() {
+		// TODO Auto-generated method stub
+		return projectRepository.findAll();
+	}
+
+	@Override
+	public void deleteProjectByIdentifier(String projectId) {
+		// TODO Auto-generated method stub
+		
+		Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+		if(project == null) {
+			throw new ProjectIdException("Project with id '"+projectId+"' does not exist");
+		}
+		
+		projectRepository.delete(project);
 	}
 
 }
