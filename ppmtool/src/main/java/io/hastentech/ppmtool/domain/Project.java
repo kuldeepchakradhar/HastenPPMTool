@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PostPersist;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -42,6 +42,7 @@ public class Project {
 	private Date create_At;
 	
 	@JsonFormat(pattern = "yyyy-mm-dd")
+	@Column(updatable = false) 
 	private Date update_At;
 	
 	public Project() {
@@ -150,7 +151,7 @@ public class Project {
 		
 	}
 	
-	@PostPersist
+	@PreUpdate
 	protected void onUpdate() {
 		this.update_At = new Date();
 	}
