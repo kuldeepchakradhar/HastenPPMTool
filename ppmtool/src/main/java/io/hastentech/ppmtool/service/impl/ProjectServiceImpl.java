@@ -1,11 +1,12 @@
 package io.hastentech.ppmtool.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import io.hastentech.ppmtool.domain.Backlog;
 import io.hastentech.ppmtool.domain.Project;
 import io.hastentech.ppmtool.exceptions.ProjectIdException;
+import io.hastentech.ppmtool.repository.BacklogRepository;
 import io.hastentech.ppmtool.repository.ProjectRepository;
 import io.hastentech.ppmtool.service.ProjectService;
 
@@ -15,11 +16,27 @@ public class ProjectServiceImpl implements ProjectService{
 	@Autowired
 	private ProjectRepository projectRepository;
 	
+	@Autowired
+	private BacklogRepository backlogRepository;
+	
 	@Override
 	public Project saveOrUpdateProject(Project project) {
 		// TODO Auto-generated method stub
 		try {
 			project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+			
+			if(project.getId() == null) {
+				Backlog backlog = new Backlog();
+				project.setBacklog(backlog);
+				backlog.setProject(project);
+				backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+			}
+			
+			if(project.getId() != null) {
+				project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+			}
+			
+			
 			return projectRepository.save(project);
 		}catch (Exception e) {
 			// TODO: handle exception
