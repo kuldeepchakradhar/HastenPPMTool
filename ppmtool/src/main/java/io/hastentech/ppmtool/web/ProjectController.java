@@ -1,5 +1,7 @@
 package io.hastentech.ppmtool.web;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,32 +33,32 @@ public class ProjectController {
 	private MapValidationErrorResult mapValidationErrorResult;
 	
 	@PostMapping
-	public ResponseEntity<?> createProject(@Valid @RequestBody Project project, BindingResult results){
+	public ResponseEntity<?> createProject(@Valid @RequestBody Project project, BindingResult results, Principal principal){
 		
 		ResponseEntity<?> errorMap = mapValidationErrorResult.mapValidationErrorResult(results);
 		if(errorMap!=null)return errorMap;
 		
-		Project proj = projectService.saveOrUpdateProject(project);
+		Project proj = projectService.saveOrUpdateProject(project, principal.getName());
 		return new ResponseEntity<Project>(proj, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/{projectId}")
-	public ResponseEntity<?> getProjectById(@PathVariable String projectId){
+	public ResponseEntity<?> getProjectById(@PathVariable String projectId, Principal principal){
 		
-		Project project = projectService.getProjectByIdentifier(projectId);
+		Project project = projectService.getProjectByIdentifier(projectId,principal.getName());
 		
 		return new ResponseEntity<Project>(project, HttpStatus.OK);
 	}
 	
 	@GetMapping("/all")
-	public Iterable<Project> findAllProjects(){
-		return projectService.findAllProjects();
+	public Iterable<Project> findAllProjects(Principal principal){
+		return projectService.findAllProjects(principal.getName());
 	}
 	
 	
 	@RequestMapping(value="/{projectId}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteProjectById(@PathVariable String projectId) {
-		projectService.deleteProjectByIdentifier(projectId);
+	public ResponseEntity<?> deleteProjectById(@PathVariable String projectId, Principal principal) {
+		projectService.deleteProjectByIdentifier(projectId, principal.getName());
 		
 		return new ResponseEntity<String>("Prject with id '"+projectId+"' is deleted", HttpStatus.OK);
 	}
