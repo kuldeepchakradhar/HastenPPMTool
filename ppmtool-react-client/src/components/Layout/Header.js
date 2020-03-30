@@ -8,7 +8,7 @@ class Header extends Component{
             <div>
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
         <div className="container">
-            <Link to="#" className="navbar-brand">
+            <Link to="/" className="navbar-brand">
                 Personal Project Management Tool
             </Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
@@ -19,7 +19,7 @@ class Header extends Component{
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
                         
-                        <Link to="/dashboard" className="nav-link" href="/dashboard">
+                        <Link to="/dashboard" className="nav-link">
                             Dashboard
                         </Link>
                         
@@ -28,12 +28,12 @@ class Header extends Component{
 
                 <ul className="navbar-nav ml-auto">
                     <li className="nav-item">
-                        <Link className="nav-link " to="#">
+                        <Link className="nav-link " to="/register">
                             Sign Up
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to="#" className="nav-link">
+                        <Link to="/login" className="nav-link">
                             Login
                         </Link>
                     </li>

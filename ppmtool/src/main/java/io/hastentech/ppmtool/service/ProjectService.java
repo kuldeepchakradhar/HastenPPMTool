@@ -6,12 +6,12 @@ import io.hastentech.ppmtool.domain.Project;
 
 public interface ProjectService {
 
-	Project saveOrUpdateProject(Project project);
+	Project saveOrUpdateProject(Project project, String username);
 
-	Project getProjectByIdentifier(String projectId);
+	Project getProjectByIdentifier(String projectId, String usrString);
 
-	Iterable<Project> findAllProjects();
+	Iterable<Project> findAllProjects(String username);
 
-	void deleteProjectByIdentifier(String projectId);
+	void deleteProjectByIdentifier(String projectId, String username);
 
 }
